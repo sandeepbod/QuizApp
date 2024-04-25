@@ -124,6 +124,61 @@ fun ResultScreen(navController: NavController) {
                     add(OptionModel(name = "System Software"))
                 })
         )
+        add(
+            QuizModel(
+                question = "Which of the following standard algorithms is not Dynamic Programming based?",
+                answer = "Prim's Minimum Spanning Tree",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "Bellman–Ford Algorithm for single source shortest path"))
+                    add(OptionModel(name = "Floyd Warshall Algorithm for all pairs shortest paths"))
+                    add(OptionModel(name = "0-1 Knapsack problem"))
+                    add(OptionModel(name = "Prim's Minimum Spanning Tree"))
+                })
+        )
+        add(
+            QuizModel(
+                question = "Which of the following is not true about comparison-based sorting algorithms?",
+                answer = "Heap Sort is not a comparison based sorting algorithm.",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "The minimum possible time complexity of a comparison-based sorting algorithm is O(n(log(n)) for a random input array"))
+                    add(OptionModel(name = "Any comparison based sorting algorithm can be made stable by using position as a criteria when two elements are compared"))
+                    add(OptionModel(name = "Counting Sort is not a comparison based sorting algorithm"))
+                    add(OptionModel(name = "Heap Sort is not a comparison based sorting algorithm."))
+                })
+        )
+        add(
+            QuizModel(
+                question = "Which of the following is not O(n2)?",
+                answer = "n3/(sqrt(n))",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "(15) * n2"))
+                    add(OptionModel(name = "n1.98"))
+                    add(OptionModel(name = "n3/(sqrt(n))"))
+                    add(OptionModel(name = "(20) * n2"))
+                })
+        )
+        add(
+            QuizModel(
+                question = "Suppose T(n) = 2T(n/2) + n, T(0) = T(1) = 1 Which one of the following is false. ",
+                answer = "T(n) = Omega(n^2)",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "T(n) = O(n^2)"))
+                    add(OptionModel(name = "T(n) = theta(nLogn)"))
+                    add(OptionModel(name = "T(n) = Omega(n^2)"))
+                    add(OptionModel(name = "T(n) = O(nLogn)"))
+                })
+        )
+        add(
+            QuizModel(
+                question = "In a complete k-ary tree, every internal node has exactly k children. The number of leaves in such a tree with n internal nodes is: ",
+                answer = "n( k – 1) + 1",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "nk"))
+                    add(OptionModel(name = "(n – 1) k+ 1"))
+                    add(OptionModel(name = "n( k – 1) + 1"))
+                    add(OptionModel(name = "n( k – 1)"))
+                })
+        )
     }
     QuizAppTheme {
         Scaffold {
@@ -167,7 +222,7 @@ fun ResultScreen(navController: NavController) {
                             modifier = Modifier
                                 .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
                                 .fillMaxWidth()
-                                .height(100.dp),
+                                .height(480.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = CardDefaults.cardColors(containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)

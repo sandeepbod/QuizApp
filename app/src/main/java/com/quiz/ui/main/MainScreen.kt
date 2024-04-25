@@ -1,43 +1,56 @@
 package com.quiz.ui.main
 
 import android.annotation.SuppressLint
-import android.widget.Toast
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.quiz.R
 import com.quiz.routing.Screen
+import com.quiz.ui.drawer.DrawerBody
+import com.quiz.ui.drawer.DrawerHeader
+import com.quiz.ui.drawer.TopBar
+import com.quiz.ui.localDatabase.PreferencesManager
 import com.quiz.ui.model.OptionModel
 import com.quiz.ui.model.QuizModel
 import com.quiz.ui.theme.QuizAppTheme
 import com.quiz.ui.theme.appColor
 import com.quiz.ui.theme.white
 import com.quiz.utils.RoundedButton
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun MainScreen(navController: NavController) {
     val context = LocalContext.current
-    val checked = remember { mutableStateOf(false) }
+    val preferenceManager = remember {
+        PreferencesManager(context)
+    }
     val scrollState = rememberScrollState()
     val answerList = arrayListOf<QuizModel>()
     answerList.clear()
+    var submitResult by remember { mutableStateOf(false) }
     val list = arrayListOf<QuizModel>().apply {
         clear()
         add(
@@ -128,6 +141,61 @@ fun MainScreen(navController: NavController) {
                     add(OptionModel(name = "System Software"))
                 })
         )
+        add(
+            QuizModel(
+                question = "Which of the following standard algorithms is not Dynamic Programming based?",
+                answer = "Prim's Minimum Spanning Tree",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "Bellman–Ford Algorithm for single source shortest path"))
+                    add(OptionModel(name = "Floyd Warshall Algorithm for all pairs shortest paths"))
+                    add(OptionModel(name = "0-1 Knapsack problem"))
+                    add(OptionModel(name = "Prim's Minimum Spanning Tree"))
+                })
+        )
+        add(
+            QuizModel(
+                question = "Which of the following is not true about comparison-based sorting algorithms?",
+                answer = "Heap Sort is not a comparison based sorting algorithm.",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "The minimum possible time complexity of a comparison-based sorting algorithm is O(n(log(n)) for a random input array"))
+                    add(OptionModel(name = "Any comparison based sorting algorithm can be made stable by using position as a criteria when two elements are compared"))
+                    add(OptionModel(name = "Counting Sort is not a comparison based sorting algorithm"))
+                    add(OptionModel(name = "Heap Sort is not a comparison based sorting algorithm."))
+                })
+        )
+        add(
+            QuizModel(
+                question = "Which of the following is not O(n2)?",
+                answer = "n3/(sqrt(n))",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "(15) * n2"))
+                    add(OptionModel(name = "n1.98"))
+                    add(OptionModel(name = "n3/(sqrt(n))"))
+                    add(OptionModel(name = "(20) * n2"))
+                })
+        )
+        add(
+            QuizModel(
+                question = "Suppose T(n) = 2T(n/2) + n, T(0) = T(1) = 1 Which one of the following is false. ",
+                answer = "T(n) = Omega(n^2)",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "T(n) = O(n^2)"))
+                    add(OptionModel(name = "T(n) = theta(nLogn)"))
+                    add(OptionModel(name = "T(n) = Omega(n^2)"))
+                    add(OptionModel(name = "T(n) = O(nLogn)"))
+                })
+        )
+        add(
+            QuizModel(
+                question = "In a complete k-ary tree, every internal node has exactly k children. The number of leaves in such a tree with n internal nodes is: ",
+                answer = "n( k – 1) + 1",
+                optionArrayList = ArrayList<OptionModel>().apply {
+                    add(OptionModel(name = "nk"))
+                    add(OptionModel(name = "(n – 1) k+ 1"))
+                    add(OptionModel(name = "n( k – 1) + 1"))
+                    add(OptionModel(name = "n( k – 1)"))
+                })
+        )
     }
 
 
@@ -148,10 +216,25 @@ fun MainScreen(navController: NavController) {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(10.dp),
-                            style = TextStyle(fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+                            style = TextStyle(
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 18.sp
+                            )
                         )
                     },
-
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                navController.navigateUp()
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                tint = Color.White,
+                                contentDescription = "Back"
+                            )
+                        }
+                    },
                     colors = TopAppBarDefaults.smallTopAppBarColors(
                         containerColor = appColor,
                         titleContentColor = Color.White
@@ -165,11 +248,19 @@ fun MainScreen(navController: NavController) {
                             modifier = Modifier
                                 .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
                                 .fillMaxWidth()
-                                .height(280.dp),
+                                .height(480.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = CardDefaults.cardColors(containerColor = Color.White),
                             elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
                         ) {
+                            var timer by remember { mutableStateOf(60) }
+                            LaunchedEffect(key1 = timer) {
+                                if (timer > 0) {
+                                    delay(1_000)
+                                    timer -= 1
+                                }
+                            }
+
                             Spacer(Modifier.height(10.dp))
                             Text(
                                 quizModel.question ?: "",
@@ -178,6 +269,27 @@ fun MainScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(vertical = 5.dp, horizontal = 10.dp)
                             )
+                            Text(
+                                "Marks : 1",
+                                fontSize = 14.sp,
+                                color = Color.Black,
+                                modifier = Modifier
+                                    .padding(vertical = 5.dp, horizontal = 10.dp)
+                                    .align(Alignment.End),
+                                textAlign = TextAlign.End
+                            )
+                            if (timer != 0) {
+                                Text(
+                                    "00:$timer",
+                                    fontSize = 14.sp,
+                                    color = Color.Black,
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp, horizontal = 10.dp)
+                                        .align(Alignment.End),
+                                    textAlign = TextAlign.End
+                                )
+                            }
+
                             Spacer(Modifier.height(10.dp))
                             Divider(
                                 thickness = 1.5.dp,
@@ -188,6 +300,7 @@ fun MainScreen(navController: NavController) {
                             var selectedOption by remember {
                                 mutableStateOf(-1)
                             }
+
                             quizModel.optionArrayList.forEachIndexed { index, optionModel ->
                                 Row(
                                     modifier = Modifier
@@ -209,19 +322,52 @@ fun MainScreen(navController: NavController) {
                     }
                 }
                 Spacer(Modifier.height(10.dp))
-                Box(Modifier.padding(15.dp).background(white)) {
+                Box(
+                    Modifier
+                        .padding(15.dp)
+                        .background(white)
+                ) {
                     RoundedButton(
-                        text = "Show Result",
+                        text = "Submit & Show Result",
                         onClick = {
-                            navController.navigate(Screen.ResultScreen.route)
+                            submitResult = true
+
                         }
                     )
                 }
             }
-
         }
 
-
+        if (submitResult) {
+            AlertDialog(
+                onDismissRequest = {
+                    submitResult = false
+                },
+                title = { Text(stringResource(id = R.string.app_name)) },
+                text = { Text("Your answers will be submitted successfully, please click Show Result Button to see your results.") },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            navController.navigate(Screen.ResultScreen.route)
+                            submitResult = false
+                        }
+                    ) {
+                        Text("Show Result")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            submitResult = false
+                        }
+                    ) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
     }
 
+
 }
+
