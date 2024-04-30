@@ -1,0 +1,13 @@
+package uk.ac.tees.mad.D3662700.routing
+
+sealed class Screen(val route: String) {
+
+    object SplashScreen: Screen("splash_screen")
+    object LoginScreen: Screen("login_screen")
+    object RegisterScreen: Screen("register_screen")
+    object QuizScreen: Screen("quiz_screen")
+    object MainScreen: Screen("main_screen")
+    object ResultScreen: Screen("result_screen")
+
+
+}

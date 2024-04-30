@@ -9,7 +9,26 @@
       "client_info": {
         "mobilesdk_app_id": "1:245643647454:android:6b1f783686364121db654f",
         "android_client_info": {
-          "package_name": "com.quiz"
+          "package_name": "uk.ac.tees.mad.D3662700"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApMEdMLv9hZcgTsYR5kkfp1vaqmTdYc50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245643647454:android:20d9fb414eef3b6fdb654f",
+        "android_client_info": {
+          "package_name": "uk.ac.tees.mad.D3662700"
         }
       },
       "oauth_client": [],
